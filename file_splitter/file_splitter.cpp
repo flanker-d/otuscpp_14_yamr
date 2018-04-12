@@ -1,6 +1,6 @@
-#include "file_splitter.h"
+#include <file_splitter/file_splitter.h>
 
-std::vector<part_of_file_t> file_splitter::split_file_to_parts(std::fstream &f, std::size_t count_of)
+std::vector<part_of_file_info_t> file_splitter::split_file_to_parts(std::fstream &f, std::size_t count_of)
 {
   f.seekg(0, std::ios_base::end);
   std::size_t size = f.tellg();
@@ -13,10 +13,10 @@ std::vector<part_of_file_t> file_splitter::split_file_to_parts(std::fstream &f, 
   for(std::size_t i = 1; i < count_of; i++)
     get_eol_pos(f, vect.at(i));
 
-  std::vector<part_of_file_t> parts_of_file;
+  std::vector<part_of_file_info_t> parts_of_file;
   for(std::size_t i = 1; i < count_of + 1; i++)
   {
-    part_of_file_t part;
+    part_of_file_info_t part;
     part.begin_pos = vect.at(i - 1);
 
     if(i != count_of)

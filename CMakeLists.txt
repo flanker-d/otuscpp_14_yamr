@@ -8,30 +8,41 @@ configure_file(version.h.in version.h)
 
 add_library(yamr_file_splitter
         file_splitter/file_splitter.cpp
+        include/data_types.h
         )
 
 add_library(yamr_mapper
         mapper/mapper.cpp
+        mapper/imapper_alg.cpp
+        mapper/alg/min_prefix_len.cpp
         )
 target_link_libraries(yamr_mapper -lpthread)
 
 add_library(yamr_reducer
         reducer/reducer.cpp
+        reducer/ireducer_alg.cpp
+        reducer/alg/min_prefix_len.cpp
         )
 target_link_libraries(yamr_reducer -lpthread)
+
+add_library(yamr_shuffler
+        shuffler/shuffler.cpp
+        shuffler/ishuffler.h
+        )
+target_link_libraries(yamr_shuffler yamr_mapper yamr_reducer -lpthread)
 
 add_executable(yamr
         main.cpp
         )
-target_link_libraries(yamr yamr_file_splitter yamr_mapper yamr_reducer)
+target_link_libraries(yamr yamr_file_splitter yamr_mapper yamr_reducer yamr_shuffler)
 
-set_target_properties(yamr yamr_file_splitter yamr_mapper yamr_reducer PROPERTIES
+set_target_properties(yamr yamr_file_splitter yamr_mapper yamr_reducer yamr_shuffler PROPERTIES
         CXX_STANDARD 14
         CXX_STANDARD_REQUIRED ON
         COMPILE_OPTIONS -Wpedantic -Wall -Wextra
         )
 
-install(TARGETS yamr
+install(TARGETS yamr yamr_file_splitter yamr_mapper yamr_reducer yamr_shuffler
         RUNTIME DESTINATION bin
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib)

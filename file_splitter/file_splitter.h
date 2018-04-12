@@ -9,7 +9,7 @@
 class file_splitter
 {
   public:
-    std::vector<part_of_file_t> split_file_to_parts(std::fstream& f, std::size_t count_of);
+    std::vector<part_of_file_info_t> split_file_to_parts(std::fstream& f, std::size_t count_of);
 
   private:
     bool check_eol(std::fstream& f, std::size_t cur_pos);

@@ -1,39 +1,31 @@
 #pragma once
 
-#include <thread>
-#include <vector>
-#include <fstream>
+#include <mapper/imapper_alg.h>
 #include <include/data_types.h>
-
-class mapper
+#include <shuffler/ishuffler.h>
+#include <fstream>
+#include <thread>
+namespace map
 {
-  public:
-    void run_mappers(std::fstream &f, std::vector<part_of_file_t> parts)
-    {
-      std::vector<std::thread> mappers_thread;
-      for(int i = 0; i < parts.size(); i++)
-      {
-        mappers_thread.push_back(std::thread([this, &f, &parts, i]{
-          read_part_of_file(f, parts.at(i));
-        }));
-      }
+  class mapper
+  {
+    public:
+      using ref = std::shared_ptr<mapper>;
 
-      for(auto &thr : mappers_thread)
-        thr.join();
-    }
+      mapper(std::fstream &f, part_of_file_info_t &part, shuffle::ishuffler::ref shuffle_ref);
+      void join();
 
-  private:
-    void read_part_of_file(std::fstream& f, part_of_file_t& part)
-    {
-      std::size_t cur_pos = part.begin_pos;
-      std::size_t end_pos = part.end_pos;
-      f.seekg(cur_pos);
-      while(cur_pos != end_pos)
-      {
-        std::string str;
-        std::getline(f, str);
-        /*str_vect.emplace_back(str);*/
-        cur_pos = cur_pos + str.length() + 1;
-      }
-    }
-};
+    private:
+      void run();
+      void read_part_of_file();
+      void send_data_to_reducers();
+
+    private:
+      std::fstream &m_fstream;
+      part_of_file_info_t m_part_of_file_info;
+      shuffle::ishuffler::weak_ref m_shuffler;
+      imapper_alg::ref m_alg;
+      std::thread m_thread;
+  };
+}
+
