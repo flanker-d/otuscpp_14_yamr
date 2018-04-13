@@ -34,4 +34,23 @@ namespace reduce
       }
     }
   }
+
+  void min_prefix_len::save_results(std::function<void(const std::string &)> save_func)
+  {
+    if(save_func != nullptr)
+    {
+      for(auto& map_it : m_n_gramms)
+      {
+        auto& tup = map_it.second;
+        bool is_unique = std::get<0>(tup);
+        if(is_unique)
+        {
+          for(auto &str : std::get<1>(tup))
+            save_func(str);
+
+          return;
+        }
+      }
+    }
+  }
 }

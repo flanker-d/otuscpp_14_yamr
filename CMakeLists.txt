@@ -6,8 +6,13 @@ include_directories(${PROJECT_SOURCE_DIR})
 
 configure_file(version.h.in version.h)
 
-add_library(yamr_file_splitter
-        file_splitter/file_splitter.cpp
+add_library(yamr_concurrent
+        concurrent/queue.cpp
+        )
+
+add_library(yamr_file_ops
+        file_ops/file_splitter.cpp
+        file_ops/file_saver.cpp
         include/data_types.h
         )
 
@@ -23,7 +28,7 @@ add_library(yamr_reducer
         reducer/ireducer_alg.cpp
         reducer/alg/min_prefix_len.cpp
         )
-target_link_libraries(yamr_reducer -lpthread)
+target_link_libraries(yamr_reducer yamr_concurrent yamr_file_ops -lpthread)
 
 add_library(yamr_shuffler
         shuffler/shuffler.cpp
@@ -34,15 +39,15 @@ target_link_libraries(yamr_shuffler yamr_mapper yamr_reducer -lpthread)
 add_executable(yamr
         main.cpp
         )
-target_link_libraries(yamr yamr_file_splitter yamr_mapper yamr_reducer yamr_shuffler)
+target_link_libraries(yamr yamr_concurrent yamr_file_ops yamr_mapper yamr_reducer yamr_shuffler)
 
-set_target_properties(yamr yamr_file_splitter yamr_mapper yamr_reducer yamr_shuffler PROPERTIES
+set_target_properties(yamr yamr_concurrent yamr_file_ops yamr_mapper yamr_reducer yamr_shuffler PROPERTIES
         CXX_STANDARD 14
         CXX_STANDARD_REQUIRED ON
         COMPILE_OPTIONS -Wpedantic -Wall -Wextra
         )
 
-install(TARGETS yamr yamr_file_splitter yamr_mapper yamr_reducer yamr_shuffler
+install(TARGETS yamr yamr_concurrent yamr_file_ops yamr_mapper yamr_reducer yamr_shuffler
         RUNTIME DESTINATION bin
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib)
