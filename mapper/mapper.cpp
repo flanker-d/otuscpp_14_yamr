@@ -2,6 +2,8 @@
 
 namespace map
 {
+  using namespace std::chrono_literals;
+
   mapper::mapper(std::fstream &f, part_of_file_info_t &part, shuffle::ishuffler::ref shuffle_ref)
     : m_fstream(f)
     , m_part_of_file_info(part)
@@ -9,6 +11,7 @@ namespace map
     , m_alg(create_map_alg())
   {
     m_thread = std::thread([this]{ run(); });
+    std::this_thread::sleep_for(1ms);
   }
 
   void mapper::join()

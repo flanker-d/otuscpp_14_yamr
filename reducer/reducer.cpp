@@ -22,7 +22,6 @@ namespace reduce
 
     if(m_thread.joinable())
       m_thread.join();
-
   }
 
   void reducer::run()

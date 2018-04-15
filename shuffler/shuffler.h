@@ -12,7 +12,7 @@ namespace shuffle
   {
     public:
       shuffler(std::fstream &f, std::vector<part_of_file_info_t> &parts, int reducers_count);
-      void init_shuffler() override;
+      void run() override;
       void send_data_to_reducer(const std::string& str) override;
 
     private:

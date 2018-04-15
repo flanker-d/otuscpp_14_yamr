@@ -11,7 +11,7 @@ namespace shuffle
   {
   }
 
-  void shuffler::init_shuffler()
+  void shuffler::run()
   {
     for(int i = 0; i < m_reducers_count; i++)
       m_reducers.push_back(std::make_shared<reduce::reducer>(i));
