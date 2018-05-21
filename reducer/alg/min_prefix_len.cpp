@@ -46,7 +46,11 @@ namespace reduce
         if(is_unique)
         {
           for(auto &str : std::get<1>(tup))
-            save_func(str);
+          {
+            auto str_len = std::to_string(str.length());
+            save_func(str_len);
+            return;
+          }
 
           return;
         }
