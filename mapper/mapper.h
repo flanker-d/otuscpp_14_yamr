@@ -12,7 +12,7 @@ namespace map
     public:
       using ref = std::shared_ptr<mapper>;
 
-      mapper(std::fstream &f, part_of_file_info_t &part, shuffle::ishuffler::ref shuffle_ref);
+      mapper(std::fstream &f, part_of_file_info_t &part, shuffle::ishuffler::ref shuffle_ref, int mapper_number);
       void join();
 
     private:
@@ -24,6 +24,7 @@ namespace map
       std::fstream &m_fstream;
       part_of_file_info_t m_part_of_file_info;
       shuffle::ishuffler::weak_ref m_shuffler;
+      int m_number{0};
       imapper_alg::ref m_alg;
       std::thread m_thread;
   };

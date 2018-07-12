@@ -36,16 +36,16 @@ namespace file_ops
     char ch = 0;
     f.seekg(cur_pos);
     f.get(ch);
-    if(ch == '\n')
-      return true;
-    else
-      return false;
+    return (ch == '\n');
   }
 
   void file_splitter::get_eol_pos(std::fstream &f, std::size_t &cur_pos)
   {
     if(check_eol(f, cur_pos))
+    {
+      cur_pos += 1;
       return;
+    }
 
     int offset = 1;
     while (true)

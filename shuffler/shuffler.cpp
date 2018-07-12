@@ -18,7 +18,7 @@ namespace shuffle
 
     int mappers_count = m_parts.size();
     for(int i = 0; i < mappers_count; i++)
-      m_mappers.push_back(std::make_shared<map::mapper>(m_fstream, m_parts.at(i), shared_from_this()));
+      m_mappers.push_back(std::make_shared<map::mapper>(m_fstream, m_parts.at(i), shared_from_this(), i));
 
     for(auto &thr : m_mappers)
       thr->join();
