@@ -53,6 +53,7 @@ install(TARGETS yamr yamr_concurrent yamr_file_ops yamr_mapper yamr_reducer yamr
         ARCHIVE DESTINATION lib)
 
 set(CPACK_GENERATOR DEB)
+set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS)
 
 set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
 set(CPACK_PACKAGE_VERSION_MINOR "${PROJECT_VERSION_MINOR}")
