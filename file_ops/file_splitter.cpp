@@ -22,7 +22,7 @@ namespace file_ops
       part.begin_pos = vect.at(i - 1);
 
       if(i != count_of)
-        part.end_pos = vect.at(i);
+        part.end_pos = vect.at(i) - 1;
       else
         part.end_pos = size;
 

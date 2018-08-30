@@ -35,7 +35,7 @@ namespace map
     std::size_t end_pos = m_part_of_file_info.end_pos;
     //std::cout << "mapper " << m_number << " beg: " << cur_pos << ", end: " << end_pos << std::endl;
     m_fstream.seekg(cur_pos);
-    while(cur_pos != end_pos)
+    while(cur_pos <= end_pos)
     {
       std::string str;
       std::getline(m_fstream, str);
